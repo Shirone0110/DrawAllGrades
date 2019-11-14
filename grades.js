@@ -10,7 +10,7 @@ function(err)
     console.log("fail", err);
 })
 
-var screen = {width: 400, height: 600}
+var screen = {width: 1000, height: 600}
 var margins = {top: 10, right: 10, bottom: 50, left: 50}
 
 var setup = function(penguins)
@@ -42,7 +42,7 @@ var setup = function(penguins)
     d3.select(".axis")
         .append("g")
         .attr("id", "xAxis")
-        .attr("tranform", "translate(" + margins.left + "," + (margins.top + height) + ")")
+        .attr("transform", "translate(" + margins.left + "," + (margins.top + height) + ")")
         .call(xAxis);
     
     d3.select(".axis")
@@ -60,19 +60,33 @@ var drawPenguin = function(penguins, xScale, yScale)
                     .selectAll("g")
                     .data(penguins)
                     .enter()
+                    .append("g")
                     .attr("fill", "none")
-                    .attr("stroke", "black")
-                    .attr("stroke-width", 3)
     
     var lineGenerator = d3.line()
                         .x(function(num, index){return xScale(index)})
                         .y(function(num){return yScale(num)})
-                        .curve(d3.curveNatural)
+                        //.curve(d3.curveNatural)
+    
+    d3.select("body")
+        .append("div")
+        .attr("id", "image");
     
     arrays.datum(function(obj)
     {
         return obj.quizes.map(function(d){return d.grade;});
     })
         .append("path")
-        .attr("d", lineGenerator);
+        .attr("d", lineGenerator)
+        .on('mouseover', function(d, i)
+           {
+                d3.select("#image *").remove();
+                d3.select("#image")
+                    .append("img")
+                    .attr("src", "penguins/" + penguins[i].picture);
+            })
+        .on('mouseout', function()
+            {
+                d3.select("#image *").remove();
+            })
 }

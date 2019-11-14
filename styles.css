@@ -1,0 +1,22 @@
+path
+{
+    stroke: black;
+    stroke-width: 1;
+}
+
+path:hover
+{
+    stroke: red;
+    stroke-width: 3;
+}
+
+#xAxis>path, #yAxis>path:hover
+{
+    stroke: black;
+    stroke-width: 1;
+}
+
+svg, div
+{
+    float: left;
+}
